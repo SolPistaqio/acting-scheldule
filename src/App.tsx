@@ -28,7 +28,6 @@ function App() {
     <div className="wrapper">
       <Calendar onFinalize={(dates) => setDates(dates)} />
       <PeoplePicker onFinalize={(people) => setPeople(people)} />
-
       <SlotAssigner people={people} dates={dates} onFinalize={setAssignments} />
       <AssignmentDisplay assignments={assignments} />
       <button onClick={() => handleGenerateSchedule()}>
