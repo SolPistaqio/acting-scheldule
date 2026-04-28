@@ -3,6 +3,13 @@ import { useState } from "react"
 import { Calendar as UICalendar } from "./ui/calendar"
 import DateDisplay from "./DateDisplay"
 import { Button } from "./ui/button"
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export default function Calendar({
   onFinalize,
@@ -23,29 +30,39 @@ export default function Calendar({
     const sortedDates = [...dates].sort((a, b) => a.getTime() - b.getTime())
     onFinalize(sortedDates)
   }
+
+  const handleRemoveDate = (date: Date) => {
+    setDates(dates.filter((d) => d.toDateString() !== date.toDateString()))
+  }
   return (
-    <div>
-      <div className="section">
-        <div className="picker">
-          <UICalendar
-            mode="single"
-            selected={currentDate}
-            onSelect={(newValue) => {
-              if (newValue) {
-                onAccept(newValue)
-                setCurrentDate(newValue)
-              }
-            }}
-            className="rounded-lg border"
-            captionLayout="dropdown"
-          />
-          <Button variant="outline" onClick={() => onAccept(currentDate)}>
-            Add date to list
-          </Button>
+    <Card className="mx-auto w-full max-w-2xl">
+      <CardHeader>
+        <CardTitle>Pick dates of rehearsals</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="mb-4 grid grid-cols-2 text-sm text-muted-foreground">
+          <div className="flex place-self-start justify-self-center">
+            <UICalendar
+              mode="single"
+              selected={currentDate}
+              onSelect={(newValue) => {
+                if (newValue) {
+                  onAccept(newValue)
+                  setCurrentDate(newValue)
+                }
+              }}
+              className="rounded-lg border"
+              captionLayout="dropdown"
+            />
+          </div>
+          <DateDisplay dates={dates} handleRemoveDate={handleRemoveDate} />
         </div>
-        <DateDisplay dates={dates} />
-      </div>
-      <Button onClick={() => handleFinalize()}>Confirm rehersal dates</Button>
-    </div>
+      </CardContent>
+      <CardFooter>
+        <Button className="w-full" onClick={() => handleFinalize()}>
+          Confirm rehersal dates
+        </Button>
+      </CardFooter>
+    </Card>
   )
 }
