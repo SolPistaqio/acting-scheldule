@@ -1,19 +1,55 @@
-import { Button } from "@/components/ui/button"
+import { useState } from "react"
 
-export function App() {
+import Calendar from "./components/DatePicker"
+import PeoplePicker from "./components/PeoplePicker"
+import SlotAssigner from "./components/SlotAssigner"
+import { createAlternateSchedule } from "./utils/createAlternateScheldule"
+import AssignmentDisplay from "./components/AssignmentDisplay"
+import ScheduleDisplay from "./components/SchelduleDisplay"
+
+function App() {
+  const [people, setPeople] = useState<string[]>([])
+  const [dates, setDates] = useState<Date[]>([])
+  const [assignments, setAssignments] = useState<
+    { date: Date; assigned: string[] }[]
+  >([])
+  const [schedule, setSchedule] = useState<
+    { date: Date; person: string }[] | null
+  >(null)
+  const handleGenerateSchedule = () => {
+    const schedule = createAlternateSchedule(people, dates, assignments)
+    if (schedule) {
+      setSchedule(schedule)
+    } else {
+      alert("Failed to generate a valid schedule with the given constraints.")
+    }
+  }
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
+    <div className="wrapper">
+      <Calendar onFinalize={(dates) => setDates(dates)} />
+      <PeoplePicker onFinalize={(people) => setPeople(people)} />
+
+      <SlotAssigner people={people} dates={dates} onFinalize={setAssignments} />
+      <AssignmentDisplay assignments={assignments} />
+      <button onClick={() => handleGenerateSchedule()}>
+        Generate schedule
+      </button>
+      <h2>Generated Schedule:</h2>
+      <ScheduleDisplay schedule={schedule} />
+      <h2>Individual Assignments:</h2>
+      {schedule ? (
+        people.map((person) => {
+          const individualSchedule = schedule.filter((s) => s.person === person)
+          return (
+            <div key={person}>
+              <h3>{person}</h3>
+              <ScheduleDisplay schedule={individualSchedule} />
+            </div>
+          )
+        })
+      ) : (
+        <p>No schedule generated yet.</p>
+      )}
     </div>
   )
 }
