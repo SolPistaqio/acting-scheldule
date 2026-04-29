@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   Field,
@@ -12,53 +11,78 @@ import { Button } from "./ui/button"
 export default function SlotAssigner({
   people,
   dates,
-  onFinalize,
+  setAssignments,
+  handleRemoveDate,
+  assignments,
 }: {
   people: string[]
   dates: Date[]
-  onFinalize: (assignments: { date: Date; assigned: string[] }[]) => void
+  setAssignments: (assignments: { date: Date; assigned: string[] }[]) => void
+  handleRemoveDate: (date: Date) => void
+  assignments: { date: Date; assigned: string[] }[]
 }) {
-  const [datesWithAssignments, setDatesWithAssignments] = useState<
-    { date: Date; assigned: string[] }[]
-  >([])
+ 
   const handleAlternateAssignment = (date: Date, person: string) => {
-    setDatesWithAssignments((prev) => {
-      const dateIndex = prev.findIndex(
-        (d) => d.date.toISOString() === date.toISOString()
-      )
-      if (dateIndex === -1) {
-        return [...prev, { date, assigned: [person] }]
-      }
-      const updated = [...prev]
-      updated[dateIndex] = {
-        ...updated[dateIndex],
-        assigned: updated[dateIndex].assigned.includes(person)
-          ? updated[dateIndex].assigned.filter((p) => p !== person)
-          : [...updated[dateIndex].assigned, person],
-      }
-      return updated
-    })
+    setAssignments(
+      (() => {
+        const dateIndex = assignments.findIndex(
+          (d) => d.date.getTime() === date.getTime()
+        )
+        if (dateIndex === -1) {
+          return [...assignments, { date: date, assigned: [person] }]
+        }
+        const updated = [...assignments]
+        updated[dateIndex] = {
+          ...updated[dateIndex],
+          assigned: updated[dateIndex].assigned.includes(person)
+            ? updated[dateIndex].assigned.filter((p) => p !== person)
+            : [...updated[dateIndex].assigned, person],
+        }
+        return updated
+      })()
+    )
+  }
+
+  const handleRemoveAssignment = (date: Date) => {
+    setAssignments(
+      assignments.filter((d) => d.date.getTime() !== date.getTime())
+    )
   }
   return (
     <div>
       <h2>Assign people to dates:</h2>
       {dates.map((date) => (
-        <FieldSet className="w-full max-w-sm mt-2" key={date.toISOString()}>
-          <FieldLegend>{date.toDateString()}</FieldLegend>
+        <FieldSet className="mt-2 w-full max-w-sm" key={date.toDateString()}>
+          <FieldLegend>
+            <div className="grid grid-cols-[1fr_1fr] items-center space-x-2">
+              <div>{date.toDateString()}</div>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => {
+                  handleRemoveAssignment(date)
+                  handleRemoveDate(date)
+                }}
+              >
+                X
+              </Button>
+            </div>
+          </FieldLegend>
           <div className="grid grid-cols-3">
             {people.map((person) => (
-              <FieldGroup className="m-2 mx-auto w-56">
+              <FieldGroup
+                key={person + date.toDateString()}
+                className="m-2 mx-auto w-56"
+              >
                 <Field
                   orientation="horizontal"
-                  key={`${date.toISOString()}-${person}`}
+                  key={`${date.toDateString()}-${person}`}
                 >
                   <Checkbox
-                    key={person + date.toISOString() + "checkbox"}
+                    key={person + date.toDateString() + "checkbox"}
                     checked={
-                      datesWithAssignments
-                        .find(
-                          (d) => d.date.toISOString() === date.toISOString()
-                        )
+                      assignments
+                        .find((d) => d.date.getTime() === date.getTime())
                         ?.assigned.includes(person) || false
                     }
                     onCheckedChange={() => {
@@ -72,21 +96,12 @@ export default function SlotAssigner({
                   >
                     {person}
                   </FieldLabel>
-                  {/* <input
-                key={person + date.toISOString()}
-                type="checkbox"
-                value={person}
-                onChange={() => {
-                  handleAlternateAssignment(date, person);
-                }}
-              /> */}
                 </Field>
               </FieldGroup>
             ))}
           </div>
         </FieldSet>
       ))}
-      <Button onClick={() => onFinalize(datesWithAssignments)}>Finalize</Button>
     </div>
   )
 }

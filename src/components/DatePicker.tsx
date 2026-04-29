@@ -13,8 +13,14 @@ import {
 
 export default function Calendar({
   onFinalize,
+  people,
+  assignments,
+  setAssignments
 }: {
-  onFinalize: (dates: Date[]) => void
+  onFinalize: (assignments: { date: Date; assigned: string[] }[]) => void
+  people: string[],
+  assignments: { date: Date; assigned: string[] }[],
+  setAssignments: (assignments: { date: Date; assigned: string[] }[]) => void
 }) {
   const todaysDate = new Date()
   const [dates, setDates] = useState<Date[]>([])
@@ -28,11 +34,21 @@ export default function Calendar({
 
   const handleFinalize = () => {
     const sortedDates = [...dates].sort((a, b) => a.getTime() - b.getTime())
-    onFinalize(sortedDates)
+    const sortedAssignments = sortedDates.map((date) => {
+      const assignment = assignments.find(
+        (a) => a.date.toDateString() === date.toDateString()
+      )
+      return {
+        date,
+        assigned: assignment ? assignment.assigned : [],
+      }
+    })
+    onFinalize(sortedAssignments)
   }
 
   const handleRemoveDate = (date: Date) => {
     setDates(dates.filter((d) => d.toDateString() !== date.toDateString()))
+    setAssignments(assignments.filter((a) => a.date.toDateString() !== date.toDateString()))
   }
   return (
     <Card className="mx-auto w-full max-w-2xl">
@@ -55,7 +71,13 @@ export default function Calendar({
               captionLayout="dropdown"
             />
           </div>
-          <DateDisplay dates={dates} handleRemoveDate={handleRemoveDate} />
+          <DateDisplay
+            people={people}
+            dates={dates}
+            handleRemoveDate={handleRemoveDate}
+            setAssignments={setAssignments}
+            assignments={assignments}
+          />
         </div>
       </CardContent>
       <CardFooter>
