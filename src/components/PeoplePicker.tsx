@@ -12,7 +12,7 @@ import {
 import {
   Card,
   CardContent,
-  CardFooter,
+  // CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -86,11 +86,11 @@ export default function PeoplePicker({
           <PeopleDisplay people={alternates} handleRemoveAlternate={handleRemoveAlternate} />
         </div>
       </CardContent>
-      <CardFooter>
+      {/* <CardFooter>
         <Button className="w-full" onClick={() => onFinalize(alternates)}>
           Confirm alternate list
         </Button>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   )
 }
