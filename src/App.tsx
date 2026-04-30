@@ -40,18 +40,22 @@ function App() {
         setAssignments={setAssignments}
       />
       <ScheduleDisplay schedule={schedule} />
-      {schedule &&
-        people.map((person) => {
-          const individualSchedule = schedule.filter((s) => s.person === person)
-          return (
+      <div className="mx-auto flex w-full max-w-2xl">
+        {schedule &&
+          people.map((person) => {
+            const individualSchedule = schedule.filter(
+              (s) => s.person === person
+            )
+            return (
               <ScheduleDisplay
                 schedule={individualSchedule}
                 name={person}
                 playInfo={playInfo}
                 key={person}
               />
-          )
-        })}
+            )
+          })}
+      </div>
     </>
   )
 }

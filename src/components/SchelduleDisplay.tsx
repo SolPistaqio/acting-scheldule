@@ -50,6 +50,9 @@ export default function ScheduleDisplay({
                     options={["Apple", "Google"]}
                     location="K. Barona iela 130 k-12, Riga, LV-1012, Latvia"
                     size="2"
+                    hideTextLabelButton
+                    hideTextLabelList
+                    listStyle="overlay"
                     startDate={
                       slot.date.getFullYear().toString() +
                       "-" +
