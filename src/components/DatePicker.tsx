@@ -10,17 +10,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import type { Slot } from "@/types/d"
 
 export default function Calendar({
   onFinalize,
   people,
   assignments,
-  setAssignments
+  setAssignments,
 }: {
-  onFinalize: (assignments: { date: Date; assigned: string[] }[]) => void
-  people: string[],
-  assignments: { date: Date; assigned: string[] }[],
-  setAssignments: (assignments: { date: Date; assigned: string[] }[]) => void
+  onFinalize: (assignments: Slot[]) => void
+  people: string[]
+  assignments: Slot[]
+  setAssignments: (assignments: Slot[]) => void
 }) {
   const todaysDate = new Date()
   const [dates, setDates] = useState<Date[]>([])
@@ -48,7 +49,9 @@ export default function Calendar({
 
   const handleRemoveDate = (date: Date) => {
     setDates(dates.filter((d) => d.toDateString() !== date.toDateString()))
-    setAssignments(assignments.filter((a) => a.date.toDateString() !== date.toDateString()))
+    setAssignments(
+      assignments.filter((a) => a.date.toDateString() !== date.toDateString())
+    )
   }
   return (
     <Card className="mx-auto w-full max-w-2xl">
@@ -56,7 +59,7 @@ export default function Calendar({
         <CardTitle>Pick dates of rehearsals</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="mb-4 grid sm:grid-cols-2 grid-cols-1 text-sm text-muted-foreground">
+        <div className="mb-4 grid grid-cols-1 text-sm text-muted-foreground sm:grid-cols-2">
           <div className="flex place-self-start justify-self-center">
             <UICalendar
               mode="single"

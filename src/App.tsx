@@ -1,31 +1,36 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import Calendar from "./components/DatePicker"
 import PeoplePicker from "./components/PeoplePicker"
-// import SlotAssigner from "./components/SlotAssigner"
 import { createAlternateSchedule } from "./utils/createAlternateScheldule"
 import ScheduleDisplay from "./components/SchelduleDisplay"
 import PlayInfoForm from "./components/PlayInfoForm"
+import type { Assignment, PlayInfo, Slot } from "./types/d"
+import { encodeState } from "./utils/encoding"
 
 function App() {
   const [people, setPeople] = useState<string[]>([])
   const [assignments, setAssignments] = useState<
-    { date: Date; assigned: string[] }[]
+    Slot[]
   >([])
-  const [schedule, setSchedule] = useState<
-    { date: Date; person: string }[] | null
-  >(null)
-  const [playInfo, setPlayInfo] = useState<{ name: string; rehearsalTime: string } | null>(null)
+  const [schedule, setSchedule] = useState<Assignment[] | null>(null)
+  const [playInfo, setPlayInfo] = useState<PlayInfo | null>(null)
   const scheduleRef = useRef<HTMLDivElement>(null)
   const handleGenerateSchedule = () => {
     const schedule = createAlternateSchedule(assignments)
     if (schedule) {
       setSchedule(schedule)
-      scheduleRef.current?.scrollIntoView({ behavior: "smooth" })
     } else {
       alert("Failed to generate a valid schedule with the given constraints.")
     }
   }
+  useEffect(() => {
+    if (schedule) {
+      scheduleRef.current?.scrollIntoView({ behavior: "smooth" })
+      const encodedState = encodeState(assignments)
+      console.log("Encoded State:", encodedState)
+    }
+  }, [schedule]) //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

@@ -9,15 +9,16 @@ import { AddToCalendarButton } from "add-to-calendar-button-react"
 
 import  addTimeToString  from "@/utils/addTimeToString"
 import { Separator } from "@/components/ui/separator";
+import type { Assignment, PlayInfo } from "@/types/d";
 
 export default function ScheduleDisplay({
   schedule,
   name,
   playInfo
 }: {
-  schedule: { date: Date; person: string }[] | null,
+  schedule: Assignment[] | null,
     name?: string
-    playInfo?: { name: string; rehearsalTime: string } | null,
+    playInfo?: PlayInfo| null,
     ref?: React.Ref<HTMLDivElement>
 }) {
  const calculateRehersalEndTime = (startTime: string) => {

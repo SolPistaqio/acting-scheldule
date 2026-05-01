@@ -7,6 +7,7 @@ import {
   FieldSet,
 } from "@/components/ui/field"
 import { Button } from "./ui/button"
+import type { Slot } from "@/types/d"
 
 export default function SlotAssigner({
   people,
@@ -17,9 +18,9 @@ export default function SlotAssigner({
 }: {
   people: string[]
   dates: Date[]
-  setAssignments: (assignments: { date: Date; assigned: string[] }[]) => void
+  setAssignments: (assignments: Slot[]) => void
   handleRemoveDate: (date: Date) => void
-  assignments: { date: Date; assigned: string[] }[]
+  assignments: Slot[]
 }) {
  
   const handleAlternateAssignment = (date: Date, person: string) => {

@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator"
 import SlotAssigner from "./SlotAssigner";
+import type { Slot } from "@/types/d";
 
 export default function DateDisplay({
   people,
@@ -11,12 +12,12 @@ export default function DateDisplay({
   people: string[]
   dates: Date[]
   handleRemoveDate: (date: Date) => void
-  setAssignments: (assignments: { date: Date; assigned: string[] }[]) => void
-  assignments: { date: Date; assigned: string[] }[]
+  setAssignments: (assignments: Slot[]) => void
+  assignments: Slot[]
 }) {
   return (
     <div>
-      <h3 className="scroll-m-20 text-xl font-semibold tracking-tight mt-2 sm:mt-0">
+      <h3 className="mt-2 scroll-m-20 text-xl font-semibold tracking-tight sm:mt-0">
         Selected Dates:
       </h3>
       <SlotAssigner

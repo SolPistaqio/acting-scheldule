@@ -15,9 +15,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from "./ui/button"
 import { useState } from "react";
+import type { PlayInfo } from "@/types/d";
 
 export default function PlayInfoForm(
-    { setPlayInfo }: { setPlayInfo: (info: { name: string; rehearsalTime: string }) => void }
+    { setPlayInfo }: { setPlayInfo: (info: PlayInfo) => void }
 ) {
     const [isInfoSaved, setIsInfoSaved] = useState(false);
     const handleSubmit = (e: React.FormEvent) => {
