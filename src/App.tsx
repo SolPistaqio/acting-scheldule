@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 import Calendar from "./components/DatePicker"
 import PeoplePicker from "./components/PeoplePicker"
@@ -16,10 +16,12 @@ function App() {
     { date: Date; person: string }[] | null
   >(null)
   const [playInfo, setPlayInfo] = useState<{ name: string; rehearsalTime: string } | null>(null)
+  const scheduleRef = useRef<HTMLDivElement>(null)
   const handleGenerateSchedule = () => {
     const schedule = createAlternateSchedule(assignments)
     if (schedule) {
       setSchedule(schedule)
+      scheduleRef.current?.scrollIntoView({ behavior: "smooth" })
     } else {
       alert("Failed to generate a valid schedule with the given constraints.")
     }
@@ -39,8 +41,10 @@ function App() {
         assignments={assignments}
         setAssignments={setAssignments}
       />
-      <ScheduleDisplay schedule={schedule} />
-      <div className="mx-auto flex w-full max-w-2xl">
+      <div ref={scheduleRef}>
+        <ScheduleDisplay schedule={schedule} />
+      </div>
+      <div className="mx-auto w-full max-w-2xl sm:flex">
         {schedule &&
           people.map((person) => {
             const individualSchedule = schedule.filter(

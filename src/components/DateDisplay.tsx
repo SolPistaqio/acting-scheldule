@@ -16,7 +16,7 @@ export default function DateDisplay({
 }) {
   return (
     <div>
-      <h3 className="scroll-m-20 text-xl font-semibold tracking-tight">
+      <h3 className="scroll-m-20 text-xl font-semibold tracking-tight mt-2 sm:mt-0">
         Selected Dates:
       </h3>
       <SlotAssigner

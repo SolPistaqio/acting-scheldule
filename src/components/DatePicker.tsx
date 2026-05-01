@@ -56,7 +56,7 @@ export default function Calendar({
         <CardTitle>Pick dates of rehearsals</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="mb-4 grid grid-cols-2 text-sm text-muted-foreground">
+        <div className="mb-4 grid sm:grid-cols-2 grid-cols-1 text-sm text-muted-foreground">
           <div className="flex place-self-start justify-self-center">
             <UICalendar
               mode="single"
