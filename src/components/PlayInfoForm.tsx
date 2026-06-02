@@ -18,7 +18,7 @@ import { useState } from "react";
 import type { PlayInfo } from "@/types/d";
 
 export default function PlayInfoForm(
-    { setPlayInfo }: { setPlayInfo: (info: PlayInfo) => void }
+    { setPlayInfo, playInfo }: { setPlayInfo: (info: PlayInfo) => void; playInfo: PlayInfo | null }
 ) {
     const [isInfoSaved, setIsInfoSaved] = useState(false);
     const handleSubmit = (e: React.FormEvent) => {
@@ -44,7 +44,13 @@ export default function PlayInfoForm(
               <div className="grid grid-cols-2 gap-3">
                 <Field>
                   <FieldLabel htmlFor="play-name">Play Name</FieldLabel>
-                  <Input id="play-name" name="play-name" type="text" required />
+                  <Input 
+                    id="play-name" 
+                    name="play-name" 
+                    type="text" 
+                    required 
+                    defaultValue={playInfo?.name || ""}
+                  />
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="time-of-rehearsal">
@@ -55,6 +61,7 @@ export default function PlayInfoForm(
                     name="time-of-rehearsal"
                     type="time"
                     required
+                    defaultValue={playInfo?.rehearsalTime || ""}
                   />
                 </Field>
               </div>
