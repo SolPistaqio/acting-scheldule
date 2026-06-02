@@ -22,11 +22,13 @@ const MAX_ALTERNATES = 3
 
 export default function PeoplePicker({
   onFinalize,
+  initialState,
 }: {
-  onFinalize: (people: string[]) => void
+  onFinalize: (people: string[]) => void,
+  initialState?: string[]
 }) {
   const [currentAlternate, setCurrentAlternate] = useState<string>("")
-  const [alternates, setAlternates] = useState<string[]>([])
+  const [alternates, setAlternates] = useState<string[]>(initialState ?? [])
   const handleAddAlternate = () => {
     if (currentAlternate.trim() === "") return
     if (alternates.length >= MAX_ALTERNATES) return

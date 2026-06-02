@@ -11,20 +11,22 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import type { Slot } from "@/types/d"
+import { getDatesFromAssignments } from "./getDatesFromAssignments";
 
 export default function Calendar({
   onFinalize,
   people,
   assignments,
-  setAssignments,
+  setAssignments
 }: {
   onFinalize: (assignments: Slot[]) => void
   people: string[]
   assignments: Slot[]
   setAssignments: (assignments: Slot[]) => void
+  initialState?: Slot[]
 }) {
   const todaysDate = new Date()
-  const [dates, setDates] = useState<Date[]>([])
+  const [dates, setDates] = useState<Date[]>(getDatesFromAssignments(assignments))
   const [currentDate, setCurrentDate] = useState<Date>(todaysDate)
   const onAccept = (date: Date | null) => {
     if (!date) return

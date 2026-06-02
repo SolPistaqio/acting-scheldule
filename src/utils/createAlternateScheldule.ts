@@ -165,6 +165,8 @@ export function createAlternateSchedule(
   if (success) {
     console.log("Assignments:")
     result.forEach((a) => console.log(`  ${fmt(a.date)} → ${a.person}`))
+  } else {
+    console.log("No valid schedule could be generated with the given constraints")
   }
   return success ? result : null
 }
