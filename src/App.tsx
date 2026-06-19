@@ -9,19 +9,29 @@ import PlayInfoForm from "./components/PlayInfoForm"
 import type { Assignment, PlayInfo, Slot } from "./types/d"
 import { encodeState, decodeState } from "./utils/encoding"
 import { useSearchParams } from "react-router-dom"
-import { decodeUrlState, decodePeopleFromUrlState } from "./utils/decodeUrlState"
+import {
+  decodeUrlState,
+  decodePeopleFromUrlState,
+} from "./utils/decodeUrlState"
+import { Toaster } from "@/components/ui/sonner"
 
 function App() {
   const [searchParams, setSearchParams] = useSearchParams()
   const initialState = decodeUrlState(searchParams.get("state"))
   const initialPeople = decodePeopleFromUrlState(searchParams.get("people"))
-  const initialPlayInfo = decodeState(searchParams.get("playInfo") ?? '') as PlayInfo | null
+  const initialPlayInfo = decodeState(
+    searchParams.get("playInfo") ?? ""
+  ) as PlayInfo | null
   const [people, setPeople] = useState<string[]>(initialPeople ?? [])
   const [assignments, setAssignments] = useState<Slot[]>(
     initialState?.slots ?? []
   )
-  const [schedule, setSchedule] = useState<Assignment[] | null>(initialState?.schedule ?? null)
-  const [playInfo, setPlayInfo] = useState<PlayInfo | null>(initialPlayInfo ?? null)
+  const [schedule, setSchedule] = useState<Assignment[] | null>(
+    initialState?.schedule ?? null
+  )
+  const [playInfo, setPlayInfo] = useState<PlayInfo | null>(
+    initialPlayInfo ?? null
+  )
   const scheduleRef = useRef<HTMLDivElement>(null)
   const handleGenerateSchedule = () => {
     const schedule = createAlternateSchedule(assignments)
@@ -47,17 +57,18 @@ function App() {
     })
   }, [people, setSearchParams])
 
-    useEffect(() => {
-      const encodedPlayInfo = encodeState(playInfo)
-      setSearchParams((prev) => {
-        const next = new URLSearchParams(prev)
-        next.set("playInfo", encodedPlayInfo)
-        return next
-      })
-    }, [playInfo, setSearchParams])
+  useEffect(() => {
+    const encodedPlayInfo = encodeState(playInfo)
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev)
+      next.set("playInfo", encodedPlayInfo)
+      return next
+    })
+  }, [playInfo, setSearchParams])
 
   return (
     <>
+      <Toaster />
       <PlayInfoForm setPlayInfo={setPlayInfo} playInfo={playInfo} />
       <PeoplePicker
         onFinalize={(people) => setPeople(people)}

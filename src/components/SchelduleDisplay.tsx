@@ -1,32 +1,29 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 import { AddToCalendarButton } from "add-to-calendar-button-react"
 
-import  addTimeToString  from "@/utils/addTimeToString"
-import { Separator } from "@/components/ui/separator";
-import type { Assignment, PlayInfo } from "@/types/d";
+import addTimeToString from "@/utils/addTimeToString"
+import { Separator } from "@/components/ui/separator"
+import type { Assignment, PlayInfo } from "@/types/d"
+import { ShareButton } from "./ShareButton"
 
 export default function ScheduleDisplay({
   schedule,
   name,
-  playInfo
+  playInfo,
 }: {
-  schedule: Assignment[] | null,
-    name?: string
-    playInfo?: PlayInfo| null,
-    ref?: React.Ref<HTMLDivElement>
+  schedule: Assignment[] | null
+  name?: string
+  playInfo?: PlayInfo | null
+  ref?: React.Ref<HTMLDivElement>
 }) {
- const calculateRehersalEndTime = (startTime: string) => {
-   return addTimeToString(startTime, 2, 30)
+  const calculateRehersalEndTime = (startTime: string) => {
+    return addTimeToString(startTime, 2, 30)
   }
 
-  const displayCalendarButton = (name && playInfo?.name && playInfo?.rehearsalTime) ? true : false
-  
+  const displayCalendarButton =
+    name && playInfo?.name && playInfo?.rehearsalTime ? true : false
+
   if (!schedule) {
     return null
   }
@@ -70,16 +67,14 @@ export default function ScheduleDisplay({
                   />
                 ) : null}
               </div>
-              {
-                (displayCalendarButton && index < schedule.length - 1) ? (
-                  <Separator className="my-2" />
-                ): null
-              }
+              {displayCalendarButton && index < schedule.length - 1 ? (
+                <Separator className="my-2" />
+              ) : null}
             </li>
           ))}
         </ul>
+        {!name && <ShareButton />}
       </CardContent>
     </Card>
   )
 }
-
