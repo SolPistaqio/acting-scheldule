@@ -1,11 +1,13 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 import Calendar from "./components/DatePicker"
 import PeoplePicker from "./components/PeoplePicker"
 import { createAlternateSchedule } from "./utils/createAlternateScheldule"
 import ScheduleDisplay from "./components/SchelduleDisplay"
 import PlayInfoForm from "./components/PlayInfoForm"
+import { LanguageSwitcher } from "./components/LanguageSwitcher"
 import type { Assignment, PlayInfo, Slot } from "./types/d"
 import { encodeState, decodeState } from "./utils/encoding"
 import { useSearchParams } from "react-router-dom"
@@ -16,6 +18,7 @@ import {
 import { Toaster } from "@/components/ui/sonner"
 
 function App() {
+  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const initialState = decodeUrlState(searchParams.get("state"))
   const initialPeople = decodePeopleFromUrlState(searchParams.get("people"))
@@ -44,7 +47,7 @@ function App() {
         return next
       })
     } else {
-      alert("Failed to generate a valid schedule with the given constraints.")
+      alert(t("errors.failedGenerate"))
     }
   }
 
@@ -69,6 +72,7 @@ function App() {
   return (
     <>
       <Toaster />
+      <LanguageSwitcher />
       <PlayInfoForm setPlayInfo={setPlayInfo} playInfo={playInfo} />
       <PeoplePicker
         onFinalize={(people) => setPeople(people)}

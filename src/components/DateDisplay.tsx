@@ -1,6 +1,8 @@
 import { Separator } from "@/components/ui/separator"
-import SlotAssigner from "./SlotAssigner";
-import type { Slot } from "@/types/d";
+import { useTranslation } from "react-i18next"
+import SlotAssigner from "./SlotAssigner"
+import { useEffect, useState } from "react"
+import type { Slot } from "@/types/d"
 
 export default function DateDisplay({
   people,
@@ -15,10 +17,23 @@ export default function DateDisplay({
   setAssignments: (assignments: Slot[]) => void
   assignments: Slot[]
 }) {
+  const { t, i18n } = useTranslation()
+  const [, setLanguageUpdate] = useState(i18n.language)
+
+  // Subscribe to language changes to trigger re-renders
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      setLanguageUpdate(i18n.language)
+    }
+    i18n.on("languageChanged", handleLanguageChange)
+    return () => {
+      i18n.off("languageChanged", handleLanguageChange)
+    }
+  }, [i18n])
   return (
     <div>
       <h3 className="mt-2 scroll-m-20 text-xl font-semibold tracking-tight sm:mt-0">
-        Selected Dates:
+        {t("dateDisplay.selectedDates")}
       </h3>
       <SlotAssigner
         people={people}
@@ -28,7 +43,7 @@ export default function DateDisplay({
         assignments={assignments}
       />
       <Separator className="my-4" />
-      <p>Total: {dates.length}/12</p>
+      <p>{t("dateDisplay.total", { current: dates.length })}</p>
       <Separator className="my-4" />
     </div>
   )

@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-
+import { useTranslation } from "react-i18next"
 import { AddToCalendarButton } from "add-to-calendar-button-react"
+import { formatDate } from "@/utils/formatDate"
+import { useEffect, useState } from "react"
 
 import addTimeToString from "@/utils/addTimeToString"
 import { Separator } from "@/components/ui/separator"
@@ -17,6 +19,19 @@ export default function ScheduleDisplay({
   playInfo?: PlayInfo | null
   ref?: React.Ref<HTMLDivElement>
 }) {
+  const { t, i18n } = useTranslation()
+  const [, setLanguageUpdate] = useState(i18n.language)
+
+  // Subscribe to language changes to trigger re-renders
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      setLanguageUpdate(i18n.language)
+    }
+    i18n.on("languageChanged", handleLanguageChange)
+    return () => {
+      i18n.off("languageChanged", handleLanguageChange)
+    }
+  }, [i18n])
   const calculateRehersalEndTime = (startTime: string) => {
     return addTimeToString(startTime, 2, 30)
   }
@@ -31,7 +46,9 @@ export default function ScheduleDisplay({
     <Card className="mx-auto w-full max-w-2xl">
       <CardHeader>
         <CardTitle>
-          {name ? `Generated Schedule for ${name}:` : "Generated Schedule:"}
+          {name
+            ? t("scheduleDisplay.generatedScheduleFor", { name })
+            : t("scheduleDisplay.generatedSchedule")}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -40,7 +57,7 @@ export default function ScheduleDisplay({
             <li key={index}>
               <div className="flex items-center gap-2">
                 <div className={displayCalendarButton ? "w-27" : "w-30"}>
-                  {slot.date.toDateString()}
+                  {formatDate(slot.date, i18n.language)}
                 </div>
                 <div>{name ? "" : `- ${slot.person}`}</div>
                 {displayCalendarButton ? (

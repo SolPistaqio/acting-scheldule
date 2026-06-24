@@ -1,0 +1,42 @@
+{
+  "playInfoForm": {
+    "title": "Izrādes informācija",
+    "playName": "Nosaukums",
+    "rehearsalStartTime": "Mēģinājuma sākuma laiks",
+    "saveInfo": "Saglabāt informāciju",
+    "updateInfo": "Atjaunināt informāciju"
+  },
+  "peoplePicker": {
+    "title": "Pievienot aktierus",
+    "nameLabel": "Vārds",
+    "description": "Pievienojiet aktierus, kuri būs daļa no grafika",
+    "addButton": "Pievienot",
+    "availableAlternates": "Aktieri:"
+  },
+  "datePicker": {
+    "title": "Izvēlieties mēģinājumu datumus",
+    "confirmButton": "Apstipriniet mēģinājumu datumus"
+  },
+  "dateDisplay": {
+    "selectedDates": "Izvēlētie datumi:",
+    "total": "Kopā: {{current}}/12"
+  },
+  "slotAssigner": {
+    "assignPeople": "Piešķiriet cilvēkus kuri var nākt:"
+  },
+  "scheduleDisplay": {
+    "generatedSchedule": "Ģenerēts grafiks:",
+    "generatedScheduleFor": "Ģenerēts grafiks lietotājam {{name}}:"
+  },
+  "shareButton": {
+    "shareLink": "Dalieties ar grafika saiti",
+    "lastShared": "Pēdējo reizi dalīts: {{date}}",
+    "copied": "Saite kopēta starpliktuvē!"
+  },
+  "errors": {
+    "failedGenerate": "Neizdevās ģenerēt derīgu grafiku ar norādītajiem ierobežojumiem."
+  },
+  "common": {
+    "language": "Valoda"
+  }
+}

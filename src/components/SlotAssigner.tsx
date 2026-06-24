@@ -1,4 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox"
+import { useTranslation } from "react-i18next"
+import { formatDate } from "@/utils/formatDate"
+import { useEffect, useState } from "react"
 import {
   Field,
   FieldGroup,
@@ -22,7 +25,28 @@ export default function SlotAssigner({
   handleRemoveDate: (date: Date) => void
   assignments: Slot[]
 }) {
- 
+  // console.log(
+  //   "[SlotAssigner] rendering with",
+  //   dates.length,
+  //   "dates and",
+  //   people.length,
+  //   "people"
+  // )
+  const { t, i18n } = useTranslation()
+  const [, setLanguageUpdate] = useState(i18n.language)
+
+  // Subscribe to language changes to trigger re-renders
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      console.log("[SlotAssigner] language changed to", i18n.language)
+      setLanguageUpdate(i18n.language)
+    }
+    i18n.on("languageChanged", handleLanguageChange)
+    return () => {
+      i18n.off("languageChanged", handleLanguageChange)
+    }
+  }, [i18n])
+
   const handleAlternateAssignment = (date: Date, person: string) => {
     setAssignments(
       (() => {
@@ -51,12 +75,12 @@ export default function SlotAssigner({
   }
   return (
     <div>
-      <h2>Assign people to dates:</h2>
+      <h2>{t("slotAssigner.assignPeople")}</h2>
       {dates.map((date) => (
         <FieldSet className="mt-2 w-full max-w-sm" key={date.toDateString()}>
           <FieldLegend>
             <div className="grid grid-cols-[1fr_1fr] items-center space-x-2">
-              <div>{date.toDateString()}</div>
+              <div>{formatDate(date, i18n.language)}</div>
               <Button
                 variant="outline"
                 size="icon"

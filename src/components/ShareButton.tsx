@@ -1,22 +1,25 @@
-import { useState } from "react";
+import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Button } from "./ui/button"
 import { toast } from "sonner"
 
 export function ShareButton() {
-    const [date, setdate] = useState('')
+  const { t } = useTranslation()
+  const [date, setdate] = useState("")
   const handleShare = () => {
     const currentUrl = window.location.href
     const currentDate = new Date()
     const minutes = currentDate.getMinutes()
-    const dateString = currentDate.getHours() + ":" + (minutes<10 ? `0${minutes}` : minutes)
+    const dateString =
+      currentDate.getHours() + ":" + (minutes < 10 ? `0${minutes}` : minutes)
     setdate(dateString)
     navigator.clipboard.writeText(currentUrl)
-    toast.success("Link copied to clipboard!", { position: "top-center" })
+    toast.success(t("shareButton.copied"), { position: "top-center" })
   }
 
   return (
     <div className="mt-4">
-      <Button className="p-6 w-full" onClick={() => handleShare()}>
+      <Button className="w-full p-6" onClick={() => handleShare()}>
         <div>
           <div
             className="mb-0 pb-0 text-[1.1rem]"
@@ -24,10 +27,10 @@ export function ShareButton() {
               marginBottom: "-0.5rem",
             }}
           >
-            Share link to scheldule
+            {t("shareButton.shareLink")}
           </div>
-          <div className="text-sm text-muted-foreground h-4">
-            {date ? `Last shared: ${date}` : ""}
+          <div className="h-4 text-sm text-muted-foreground">
+            {date ? t("shareButton.lastShared", { date }) : ""}
           </div>
         </div>
       </Button>

@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Calendar as UICalendar } from "./ui/calendar"
 import DateDisplay from "./DateDisplay"
 import { Button } from "./ui/button"
@@ -11,13 +12,13 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import type { Slot } from "@/types/d"
-import { getDatesFromAssignments } from "./getDatesFromAssignments";
+import { getDatesFromAssignments } from "./getDatesFromAssignments"
 
 export default function Calendar({
   onFinalize,
   people,
   assignments,
-  setAssignments
+  setAssignments,
 }: {
   onFinalize: (assignments: Slot[]) => void
   people: string[]
@@ -25,8 +26,11 @@ export default function Calendar({
   setAssignments: (assignments: Slot[]) => void
   initialState?: Slot[]
 }) {
+  const { t } = useTranslation()
   const todaysDate = new Date()
-  const [dates, setDates] = useState<Date[]>(getDatesFromAssignments(assignments))
+  const [dates, setDates] = useState<Date[]>(
+    getDatesFromAssignments(assignments)
+  )
   const [currentDate, setCurrentDate] = useState<Date>(todaysDate)
   const onAccept = (date: Date | null) => {
     if (!date) return
@@ -58,7 +62,7 @@ export default function Calendar({
   return (
     <Card className="mx-auto w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Pick dates of rehearsals</CardTitle>
+        <CardTitle>{t("datePicker.title")}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="mb-4 grid grid-cols-1 text-sm text-muted-foreground sm:grid-cols-2">
@@ -87,7 +91,7 @@ export default function Calendar({
       </CardContent>
       <CardFooter>
         <Button className="w-full" onClick={() => handleFinalize()}>
-          Confirm rehersal dates
+          {t("datePicker.confirmButton")}
         </Button>
       </CardFooter>
     </Card>

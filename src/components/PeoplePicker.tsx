@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import PeopleDisplay from "./PeopleDisplay"
 
 import {
@@ -9,12 +10,7 @@ import {
   FieldSet,
 } from "@/components/ui/field"
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "./ui/button"
 
@@ -24,9 +20,10 @@ export default function PeoplePicker({
   onFinalize,
   initialState,
 }: {
-  onFinalize: (people: string[]) => void,
+  onFinalize: (people: string[]) => void
   initialState?: string[]
 }) {
+  const { t } = useTranslation()
   const [currentAlternate, setCurrentAlternate] = useState<string>("")
   const [alternates, setAlternates] = useState<string[]>(initialState ?? [])
   const handleAddAlternate = () => {
@@ -47,7 +44,7 @@ export default function PeoplePicker({
   return (
     <Card className="mx-auto w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Add alternates</CardTitle>
+        <CardTitle>{t("peoplePicker.title")}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="mb-4 grid grid-cols-2 text-sm text-muted-foreground">
@@ -55,7 +52,9 @@ export default function PeoplePicker({
             <FieldSet className="w-full max-w-xs">
               <FieldGroup>
                 <Field>
-                  <FieldLabel htmlFor="name">Name</FieldLabel>
+                  <FieldLabel htmlFor="name">
+                    {t("peoplePicker.nameLabel")}
+                  </FieldLabel>
                   <Input
                     id="name"
                     type="text"
@@ -69,7 +68,7 @@ export default function PeoplePicker({
                     }}
                   />
                   <FieldDescription>
-                    Add the names of the actors who will be part of the schedule
+                    {t("peoplePicker.description")}
                   </FieldDescription>
                 </Field>
               </FieldGroup>
@@ -80,11 +79,14 @@ export default function PeoplePicker({
                 handleAddAlternate()
               }}
             >
-              Add alternate
+              {t("peoplePicker.addButton")}
             </Button>
           </div>
 
-          <PeopleDisplay people={alternates} handleRemoveAlternate={handleRemoveAlternate} />
+          <PeopleDisplay
+            people={alternates}
+            handleRemoveAlternate={handleRemoveAlternate}
+          />
         </div>
       </CardContent>
       {/* <CardFooter>

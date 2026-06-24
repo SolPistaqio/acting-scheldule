@@ -1,9 +1,17 @@
-import { Button } from "./ui/button";
+import { Button } from "./ui/button"
+import { useTranslation } from "react-i18next"
 
-export default function PeopleDisplay({ people, handleRemoveAlternate }: { people: string[]; handleRemoveAlternate: (alternate: string) => void }) {
+export default function PeopleDisplay({
+  people,
+  handleRemoveAlternate,
+}: {
+  people: string[]
+  handleRemoveAlternate: (alternate: string) => void
+}) {
+  const { t } = useTranslation()
   return (
     <div>
-      <h3>Available Alternates:</h3>
+      <h3>{t("peoplePicker.availableAlternates")}</h3>
       <ul>
         {people.map((person, index) => (
           <li key={index}>

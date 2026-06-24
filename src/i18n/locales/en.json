@@ -1,0 +1,42 @@
+{
+  "playInfoForm": {
+    "title": "Play Information",
+    "playName": "Play Name",
+    "rehearsalStartTime": "Rehearsal Start Time",
+    "saveInfo": "Save Info",
+    "updateInfo": "Update Info"
+  },
+  "peoplePicker": {
+    "title": "Add alternates",
+    "nameLabel": "Name",
+    "description": "Add the names of the actors who will be part of the schedule",
+    "addButton": "Add alternate",
+    "availableAlternates": "Available Alternates:"
+  },
+  "datePicker": {
+    "title": "Pick dates of rehearsals",
+    "confirmButton": "Confirm rehearsal dates"
+  },
+  "dateDisplay": {
+    "selectedDates": "Selected Dates:",
+    "total": "Total: {{current}}/12"
+  },
+  "slotAssigner": {
+    "assignPeople": "Assign people to dates:"
+  },
+  "scheduleDisplay": {
+    "generatedSchedule": "Generated Schedule:",
+    "generatedScheduleFor": "Generated Schedule for {{name}}:"
+  },
+  "shareButton": {
+    "shareLink": "Share link to schedule",
+    "lastShared": "Last shared: {{date}}",
+    "copied": "Link copied to clipboard!"
+  },
+  "errors": {
+    "failedGenerate": "Failed to generate a valid schedule with the given constraints."
+  },
+  "common": {
+    "language": "Language"
+  }
+}
