@@ -1,5 +1,3 @@
-const fmt = (d: Date) => d.toDateString().slice(0, 10)
-
 interface Slot {
   date: Date
   options: string[]
@@ -14,6 +12,8 @@ export function createAlternateSchedule(
   assignments: { date: Date; assigned: string[] }[]
 ): Assignment[] | null {
   const people = [...new Set(assignments.flatMap((a) => a.assigned))]
+  //sort assignments by date in ascending order
+  assignments.sort((a, b) => a.date.getTime() - b.date.getTime())
 
   const slots: Slot[] = assignments.map((a) => ({
     date: a.date,
