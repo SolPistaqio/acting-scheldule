@@ -12,7 +12,6 @@ export function decodeUrlState(urlState: string | null) {
     ...slot,
     date: new Date(slot.date),
   }))
-  console.log("Decoded state from URL:", slotsWithDates)
   return {
     slots: slotsWithDates,
     schedule: createAlternateSchedule(slotsWithDates) ?? null,

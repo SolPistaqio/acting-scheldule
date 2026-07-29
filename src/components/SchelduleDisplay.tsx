@@ -70,6 +70,7 @@ export default function ScheduleDisplay({
                     hideTextLabelButton
                     hideTextLabelList
                     listStyle="overlay"
+                    timeZone="Europe/Riga"
                     startDate={
                       slot.date.getFullYear().toString() +
                       "-" +

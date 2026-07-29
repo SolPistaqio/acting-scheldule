@@ -25,20 +25,12 @@ export default function SlotAssigner({
   handleRemoveDate: (date: Date) => void
   assignments: Slot[]
 }) {
-  // console.log(
-  //   "[SlotAssigner] rendering with",
-  //   dates.length,
-  //   "dates and",
-  //   people.length,
-  //   "people"
-  // )
   const { t, i18n } = useTranslation()
   const [, setLanguageUpdate] = useState(i18n.language)
 
   // Subscribe to language changes to trigger re-renders
   useEffect(() => {
     const handleLanguageChange = () => {
-      console.log("[SlotAssigner] language changed to", i18n.language)
       setLanguageUpdate(i18n.language)
     }
     i18n.on("languageChanged", handleLanguageChange)
